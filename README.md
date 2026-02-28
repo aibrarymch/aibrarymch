@@ -12,4 +12,9 @@
 ### Recent Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
+- [2026/02/26] [気に入ったAIイラストからオリジナルの画風LoRAを作ります](https://blog.mc-h.art/scraps/art-style-lora/)
+- [2025/09/20] [リクエストについて](https://blog.mc-h.art/posts/request/)
+- [2025/09/21] [ダンボールタグ系画像AI用プロンプト辞典](https://blog.mc-h.art/posts/prompt-dictionary/)
+- [2026/02/13] [Cloudflare Pagesで動くシンプルな短縮URLシステムを作ってみました](https://blog.mc-h.art/posts/shorturl/)
+- [2026/01/02] [2025年買ってよかったもの6選](https://blog.mc-h.art/posts/bestbuy-2025/)
 <!-- BLOG-POST-LIST:END -->
