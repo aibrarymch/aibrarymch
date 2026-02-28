@@ -20,5 +20,8 @@
  | Pixiv   | https://www.pixiv.net/users/3505606      |
  +---------+------------------------------------------+
 
- $ _
+ $ cat recent_posts.txt
 ```
+
+<!-- BLOG-POST-LIST:START -->
+<!-- BLOG-POST-LIST:END -->

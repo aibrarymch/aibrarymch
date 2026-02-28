@@ -1,0 +1,83 @@
+name: Update blog posts
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # 毎日0時(UTC)に実行
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch RSS and update README
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const https = require('https');
+            const fs = require('fs');
+
+            const rssXml = await new Promise((resolve, reject) => {
+              https.get('https://blog.mc-h.art/rss.xml', (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => resolve(data));
+                res.on('error', reject);
+              }).on('error', reject);
+            });
+
+            // Parse items from RSS XML
+            const items = [];
+            const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+            let match;
+            while ((match = itemRegex.exec(rssXml)) !== null) {
+              const itemXml = match[1];
+              const title = itemXml.match(/<title>([\s\S]*?)<\/title>/)?.[1]?.trim() || '';
+              const link = itemXml.match(/<link>([\s\S]*?)<\/link>/)?.[1]?.trim() || '';
+              const pubDate = itemXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1]?.trim() || '';
+
+              if (title && link) {
+                const date = new Date(pubDate);
+                const formatted = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+                items.push({ title, link, date: formatted });
+              }
+            }
+
+            // Take up to 5 recent posts
+            const recent = items.slice(0, 5);
+
+            // Build the blog post list as a terminal-style table
+            if (recent.length === 0) {
+              console.log('No blog posts found');
+              return;
+            }
+
+            const lines = recent.map(p => `- [${p.date}] [${p.title}](${p.link})`);
+            const postList = lines.join('\n');
+
+            // Update README
+            const readme = fs.readFileSync('README.md', 'utf8');
+            const updated = readme.replace(
+              /<!-- BLOG-POST-LIST:START -->[\s\S]*?<!-- BLOG-POST-LIST:END -->/,
+              `<!-- BLOG-POST-LIST:START -->\n${postList}\n<!-- BLOG-POST-LIST:END -->`
+            );
+
+            if (readme === updated) {
+              console.log('No changes detected');
+              return;
+            }
+
+            fs.writeFileSync('README.md', updated);
+            console.log('README updated with latest blog posts');
+
+      - name: Commit and push if changed
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update blog post list"
+          git push
