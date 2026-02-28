@@ -38,9 +38,10 @@ jobs:
               const title = itemXml.match(/<title>([\s\S]*?)<\/title>/)?.[1]?.trim() || '';
               const link = itemXml.match(/<link>([\s\S]*?)<\/link>/)?.[1]?.trim() || '';
               const pubDate = itemXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1]?.trim() || '';
+              const atomUpdated = itemXml.match(/<atom:updated>([\s\S]*?)<\/atom:updated>/)?.[1]?.trim() || '';
 
               if (title && link) {
-                const date = new Date(pubDate);
+                const date = new Date(atomUpdated || pubDate);
                 const formatted = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
                 items.push({ title, link, date: formatted });
               }
