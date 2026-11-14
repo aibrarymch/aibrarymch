@@ -21,7 +21,7 @@ jobs:
             const fs = require('fs');
 
             const rssXml = await new Promise((resolve, reject) => {
-              https.get('https://blog.mc-h.art/rss.xml', (res) => {
+              https.get('https://blog.mc-h.page/rss.xml', (res) => {
                 let data = '';
                 res.on('data', chunk => data += chunk);
                 res.on('end', () => resolve(data));
