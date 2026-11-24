@@ -12,7 +12,7 @@
 ### Recent Blog Posts
 
 <!-- BLOG-POST-LIST:START -->
-- [2026/10/26] [あいぶらり履修作品リスト](https://blog.mc-h.page/posts/completed-media-log/)
+- [2026/11/24] [あいぶらり履修作品リスト](https://blog.mc-h.page/posts/completed-media-log/)
 - [2026/08/16] [ダンボールタグ系画像AI用プロンプト辞典](https://blog.mc-h.page/posts/prompt-dictionary/)
 - [2026/04/10] [リクエストについて](https://blog.mc-h.page/posts/request/)
 - [2026/02/26] [気に入ったAIイラストからオリジナルの画風LoRAを作ります](https://blog.mc-h.page/scraps/art-style-lora/)
